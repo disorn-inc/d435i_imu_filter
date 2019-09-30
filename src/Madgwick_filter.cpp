@@ -28,8 +28,8 @@ float ax, ay, az, gx, gy, gz;
 ros::Duration dtime;
 float dt;
 
-float invSqrt(float );
-void qua2Euler(geometry_msgs::QuaternionStamped );
+float invSqrt(float);
+void qua2Euler(geometry_msgs::QuaternionStamped);
 void MadgwickAHRSupdateIMU(float gx, float gy, float gz, float ax, float ay, float az);
 
 void callback(filter::MyStuff2Config &config, uint32_t level) {
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
   tf::TransformBroadcaster q_broadcaster;
   ros::Subscriber sub = n.subscribe("/camera/accel/sample", 10, filter_function);
   if(!n.getParam("sampleFreq", sampleFreq))
-    sampleFreq = 60.0;
+    sampleFreq = 45.0;
   dynamic_reconfigure::Server<filter::MyStuff2Config> server;
   dynamic_reconfigure::Server<filter::MyStuff2Config>::CallbackType f;
   f = boost::bind(&callback, _1, _2);
@@ -149,7 +149,7 @@ float invSqrt(float x)
   u.x = u.x * (1.5f - xhalf * u.x * u.x);
   return u.x;
 }
-
+    
 //reference: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 void qua2Euler(geometry_msgs::QuaternionStamped q) {
 
